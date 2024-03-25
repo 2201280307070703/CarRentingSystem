@@ -32,6 +32,8 @@
 
         public int Year { get; set; }
 
+        public decimal PricePerDay { get; set; }
+
         public bool isAvailable { get; set; }
 
         [ForeignKey(nameof(Category))]
@@ -43,5 +45,10 @@
         public Guid DealerId { get; set; }
 
         public virtual Dealer Dealer { get; set; } = null!;
+
+        [ForeignKey(nameof(CurrentRenter))]
+        public Guid? CurrentRenterId { get; set; }
+
+        public virtual User? CurrentRenter { get; set; }
     }
 }

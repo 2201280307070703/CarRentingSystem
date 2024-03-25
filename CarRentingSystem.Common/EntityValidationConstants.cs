@@ -10,10 +10,13 @@
             public const int ModelMinLength = 2;
             public const int ModelMaxLength = 15;
 
-            public const int DescriptionMinLength = 2;
-            public const int DescriptionMaxLength = 15;
+            public const int DescriptionMinLength = 10;
+            public const int DescriptionMaxLength = 100;
 
-            public const int ImageUrlMaxLength = 15;
+            public const string PricePerDayMinValue = "30";
+            public const string PricePerDayMaxValue = "2000";
+
+            public const int ImageUrlMaxLength = 2048;
         }
 
         public static class Category

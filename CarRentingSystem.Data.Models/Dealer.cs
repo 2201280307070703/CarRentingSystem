@@ -1,6 +1,7 @@
 ﻿namespace CarRentingSystem.Data.Models
 {
     using System.ComponentModel.DataAnnotations;
+    using System.ComponentModel.DataAnnotations.Schema;
 
     using static Common.EntityValidationConstants.Dealer;
     public class Dealer
@@ -9,7 +10,7 @@
         {
             this.Id = Guid.NewGuid();
 
-            this.Cars = new HashSet<Car>();
+            this.OwnedCars = new HashSet<Car>();
         }
 
         [Key]
@@ -27,10 +28,11 @@
         [MaxLength(PhoneNumberMaxLength)]
         public string PhoneNumber { get; set; } = null!;
 
+        [ForeignKey(nameof(User))]
         public Guid UserId { get; set; }
 
         public virtual User User { get; set; } = null!;
 
-        public virtual ICollection<Car> Cars { get; set; }
+        public virtual ICollection<Car> OwnedCars { get; set; }
     }
 }
