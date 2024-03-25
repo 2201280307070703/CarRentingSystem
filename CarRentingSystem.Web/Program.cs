@@ -4,6 +4,8 @@ namespace CarRentingSystem.Web
 
     using CarRentingSystem.Web.Data;
     using CarRentingSystem.Data.Models;
+    using CarRentingSystem.Web.Infrastructure.Extensions;
+    using CarRentingSystem.Services;
 
     public class Program
     {
@@ -32,6 +34,9 @@ namespace CarRentingSystem.Web
                     builder.Configuration.GetValue<int>("Identity:Password:RequiredLength");
 
             }).AddEntityFrameworkStores<CarRentingDbContext>();
+
+            builder.Services.AddServices(typeof(CarService));
+
             builder.Services.AddControllersWithViews();
 
             WebApplication app = builder.Build();

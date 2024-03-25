@@ -18,6 +18,8 @@
   <ItemGroup>
     <ProjectReference Include="..\CarRentingSystem.Data.Models\CarRentingSystem.Data.Models.csproj" />
     <ProjectReference Include="..\CarRentingSystem.Data\CarRentingSystem.Data.csproj" />
+    <ProjectReference Include="..\CarRentingSystem.Services\CarRentingSystem.Services.csproj" />
+    <ProjectReference Include="..\CarRentingSystem.Web.Infrastructure\CarRentingSystem.Web.Infrastructure.csproj" />
     <ProjectReference Include="..\CarRentingSystem.Web.ViewModels\CarRentingSystem.Web.ViewModels.csproj" />
   </ItemGroup>
 
