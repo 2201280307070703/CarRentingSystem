@@ -16,7 +16,7 @@
         }
         public DbSet<Car> Cars { get; set; } = null!;
         public DbSet<Category> Categories { get; set; } = null!;
-        public DbSet<Dealer> Deals { get; set; } = null!;
+        public DbSet<Dealer> Dealers { get; set; } = null!;
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
