@@ -14,7 +14,7 @@
                 throw new InvalidOperationException("Invalid service provided!");
             }
 
-            Type[] serviceTypes = serviceAssembly.GetTypes().Where(t => t.Name.EndsWith("Service") && t.IsInterface).ToArray();
+            Type[] serviceTypes = serviceAssembly.GetTypes().Where(t => t.Name.EndsWith("Service") && !t.IsInterface).ToArray();
 
             foreach (var serviceType in serviceTypes)
             {
