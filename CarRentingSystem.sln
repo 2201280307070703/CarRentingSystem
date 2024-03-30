@@ -19,9 +19,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CarRentingSystem.Web.ViewMo
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Services", "Services", "{96ACB3C3-38F8-4603-A2B3-1CF19EE3A9D0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CarRentingSystem.Services", "CarRentingSystem.Services\CarRentingSystem.Services.csproj", "{A67E1A36-D121-4637-9AD4-43CE383C1D02}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CarRentingSystem.Services.Data", "CarRentingSystem.Services\CarRentingSystem.Services.Data.csproj", "{A67E1A36-D121-4637-9AD4-43CE383C1D02}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CarRentingSystem.Web.Infrastructure", "CarRentingSystem.Web.Infrastructure\CarRentingSystem.Web.Infrastructure.csproj", "{96E26758-60F9-41DF-BF8D-120C70B1EC6B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CarRentingSystem.Web.Infrastructure", "CarRentingSystem.Web.Infrastructure\CarRentingSystem.Web.Infrastructure.csproj", "{96E26758-60F9-41DF-BF8D-120C70B1EC6B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CarRentingSystem.Services.Mapping", "CarRentingSystem.Services.Mapping\CarRentingSystem.Services.Mapping.csproj", "{87B2DB4F-DD92-4B0B-B7DC-E0E50074497A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -57,6 +59,10 @@ Global
 		{96E26758-60F9-41DF-BF8D-120C70B1EC6B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{96E26758-60F9-41DF-BF8D-120C70B1EC6B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{96E26758-60F9-41DF-BF8D-120C70B1EC6B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{87B2DB4F-DD92-4B0B-B7DC-E0E50074497A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{87B2DB4F-DD92-4B0B-B7DC-E0E50074497A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{87B2DB4F-DD92-4B0B-B7DC-E0E50074497A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{87B2DB4F-DD92-4B0B-B7DC-E0E50074497A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -68,6 +74,7 @@ Global
 		{C5D258C2-528B-4A86-A92B-BF96F3DFF951} = {4F946D85-FC93-4F71-A2BB-B8B49E1A67FE}
 		{A67E1A36-D121-4637-9AD4-43CE383C1D02} = {96ACB3C3-38F8-4603-A2B3-1CF19EE3A9D0}
 		{96E26758-60F9-41DF-BF8D-120C70B1EC6B} = {4F946D85-FC93-4F71-A2BB-B8B49E1A67FE}
+		{87B2DB4F-DD92-4B0B-B7DC-E0E50074497A} = {96ACB3C3-38F8-4603-A2B3-1CF19EE3A9D0}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {F5E0D0E7-C560-42C5-8C47-AEFE39F2369E}

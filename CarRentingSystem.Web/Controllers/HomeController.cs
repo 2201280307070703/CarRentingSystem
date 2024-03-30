@@ -2,7 +2,7 @@
 {
     using System.Diagnostics;
     using Microsoft.AspNetCore.Mvc;
-    using CarRentingSystem.Web.Models;
+    using CarRentingSystem.Web.ViewModels.Home;
 
     public class HomeController : Controller
     {

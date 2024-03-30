@@ -16,9 +16,11 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\CarRentingSystem.Common\CarRentingSystem.Common.csproj" />
     <ProjectReference Include="..\CarRentingSystem.Data.Models\CarRentingSystem.Data.Models.csproj" />
     <ProjectReference Include="..\CarRentingSystem.Data\CarRentingSystem.Data.csproj" />
-    <ProjectReference Include="..\CarRentingSystem.Services\CarRentingSystem.Services.csproj" />
+    <ProjectReference Include="..\CarRentingSystem.Services.Mapping\CarRentingSystem.Services.Mapping.csproj" />
+    <ProjectReference Include="..\CarRentingSystem.Services\CarRentingSystem.Services.Data.csproj" />
     <ProjectReference Include="..\CarRentingSystem.Web.Infrastructure\CarRentingSystem.Web.Infrastructure.csproj" />
     <ProjectReference Include="..\CarRentingSystem.Web.ViewModels\CarRentingSystem.Web.ViewModels.csproj" />
   </ItemGroup>

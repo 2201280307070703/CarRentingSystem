@@ -6,6 +6,7 @@ namespace CarRentingSystem.Web
     using CarRentingSystem.Data.Models;
     using CarRentingSystem.Web.Infrastructure.Extensions;
     using CarRentingSystem.Services;
+    using CarRentingSystem.Services.Mapping;
 
     public class Program
     {
@@ -34,6 +35,12 @@ namespace CarRentingSystem.Web
                     builder.Configuration.GetValue<int>("Identity:Password:RequiredLength");
 
             }).AddEntityFrameworkStores<CarRentingDbContext>();
+
+            builder.Services.AddAutoMapper(cfg =>
+            {
+                cfg.AddProfile<CarRentingSystemProfile>();
+            });
+
 
             builder.Services.AddServices(typeof(CarService));
 
