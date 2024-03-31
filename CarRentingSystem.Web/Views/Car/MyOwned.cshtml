@@ -1,0 +1,15 @@
+﻿@model ICollection<CarCardViewModel>;
+
+@{
+    ViewData["Title"] = "My Cars For Rent";
+}
+
+<h2 class="text-center">@ViewBag.Title</h2>
+<hr />
+
+@foreach (CarCardViewModel card in @Model)
+{
+    <div class="offset-3 col-6">
+        <partial name="_CarCardPartial" model="card" />
+    </div>
+}

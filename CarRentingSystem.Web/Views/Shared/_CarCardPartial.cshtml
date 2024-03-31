@@ -1,0 +1,10 @@
+﻿@model CarCardViewModel;
+
+<div class="card">
+    <img class="card-img-top" src="@Model.ImageUrl" alt="Card image cap">
+    <div class="card-body">
+        <h5 class="card-title">@Model.Make @Model.Model</h5>
+        <p class="card-text">@Model.Description</p>
+        <a asp-controller="Car" asp-action="Deatails" asp-route-id="@Model.Id" class="btn btn-primary">Details</a>
+    </div>
+</div>

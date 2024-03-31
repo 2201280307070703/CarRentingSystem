@@ -1,7 +1,9 @@
 ﻿namespace CarRentingSystem.Web.Controllers
 {
     using System.Diagnostics;
+
     using Microsoft.AspNetCore.Mvc;
+
     using CarRentingSystem.Web.ViewModels.Home;
 
     public class HomeController : Controller

@@ -36,9 +36,7 @@
 
         public async Task<bool> DealerExistsByUserIdAsync(string userId)
         {
-            var result = await dbContext.Dealers.AnyAsync(d => d.UserId.ToString() == userId);
-            Console.WriteLine(userId);
-            return result;
+            return await dbContext.Dealers.AnyAsync(d => d.UserId.ToString() == userId);
         }
     }
 }

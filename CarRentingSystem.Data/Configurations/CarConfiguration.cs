@@ -21,6 +21,9 @@
             builder.Property(p => p.PricePerDay)
                 .HasPrecision(18, 2);
 
+            builder.Property(a => a.isAvailable)
+                .HasDefaultValue(true);
+
             builder.HasData(GenerateCars());
         }
 

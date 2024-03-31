@@ -1,11 +1,12 @@
 ﻿namespace CarRentingSystem.Web.Controllers
 {
-    using CarRentingSystem.Services.Contracts;
-    using CarRentingSystem.Web.Infrastructure.Extensions;
-    using CarRentingSystem.Web.ViewModels.Dealer;
+    using System.Security.Claims;
+
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
-    using System.Security.Claims;
+
+    using CarRentingSystem.Services.Contracts;
+    using CarRentingSystem.Web.ViewModels.Dealer;
     using static Common.NotificationMessagesConstants;
 
     [Authorize]
@@ -66,10 +67,14 @@
             }
             catch (Exception)
             {
-                TempData[ErrorMessage] = "Unexpected error occurred while registering you as an dealer! Please try again later.";
-
-                return RedirectToAction("Index", "Home");
+                return GeneralExceptionHandler();
             }
+        }
+        private RedirectToActionResult GeneralExceptionHandler()
+        {
+            TempData[ErrorMessage] = "Unexpected error occurred! Please try again later.";
+
+            return RedirectToAction("Index", "Home");
         }
     }
 }

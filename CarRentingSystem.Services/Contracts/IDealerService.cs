@@ -9,5 +9,7 @@
         Task<bool> DealerExistsByPhoneNumberAsync(string phoneNumber);
 
         Task Create(string userId, BecomeDealerFormModel model);
+
+        //Task<string> TakeDealerIdByUserId(string userId);
     }
 }
