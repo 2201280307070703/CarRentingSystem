@@ -13,10 +13,13 @@
             public const int DescriptionMinLength = 10;
             public const int DescriptionMaxLength = 100;
 
-            public const string PricePerDayMinValue = "30";
-            public const string PricePerDayMaxValue = "2000";
+            public const string PricePerDayMinValue = "70";
+            public const string PricePerDayMaxValue = "5000";
 
             public const int ImageUrlMaxLength = 2048;
+
+            public const string MinYear = "2005";
+            public const string MaxYear = "2024";
         }
 
         public static class Category

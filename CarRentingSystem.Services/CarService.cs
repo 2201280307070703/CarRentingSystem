@@ -2,16 +2,14 @@
 {
     using System.Threading.Tasks;
 
-    using AutoMapper;
     using Microsoft.EntityFrameworkCore;
-    using System.Collections.Generic;
+
+    using AutoMapper;
     using AutoMapper.QueryableExtensions;
 
     using CarRentingSystem.Services.Contracts;
-    using CarRentingSystem.Web.ViewModels.Car;
     using CarRentingSystem.Web.Data;
-
-
+    using CarRentingSystem.Web.ViewModels.Car;
 
     public class CarService : ICarService
     {

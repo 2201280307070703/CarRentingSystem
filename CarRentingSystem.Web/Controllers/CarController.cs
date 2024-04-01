@@ -6,8 +6,9 @@
     using Microsoft.AspNetCore.Mvc;
 
     using CarRentingSystem.Services.Contracts;
+    using CarRentingSystem.Services.Data.Contracts;
     using CarRentingSystem.Web.ViewModels.Car;
-
+    using CarRentingSystem.Web.ViewModels.Category;
     using static Common.NotificationMessagesConstants;
 
     [Authorize]
@@ -15,11 +16,13 @@
     {
         private readonly ICarService carService;
         private readonly IDealerService dealerService;
+        private readonly ICategoryService categoryService;
 
-        public CarController(ICarService carService, IDealerService dealerService)
+        public CarController(ICarService carService, IDealerService dealerService, ICategoryService categoryService)
         {
             this.carService = carService;
             this.dealerService = dealerService;
+            this.categoryService = categoryService;
         }
 
         //[AllowAnonymous]
@@ -29,9 +32,10 @@
         //    return View();
         //}
 
+        [HttpGet]
         public async Task<IActionResult> MyOwned()
         {
-            string? userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            string userId = GetUserId();
             bool isUserDealer = await dealerService.DealerExistsByUserIdAsync(userId);
 
             if (!isUserDealer)
@@ -53,11 +57,44 @@
             }
         }
 
+        [HttpGet]
+        public async Task<IActionResult> Add()
+        {
+            string userId = GetUserId();
+            bool isUserDealer = await this.dealerService.DealerExistsByUserIdAsync(userId);
+
+            if (!isUserDealer)
+            {
+                this.TempData[ErrorMessage] = "You must be a dealer in order to add car ad!";
+
+                return RedirectToAction("Become", "Dealer");
+            }
+
+            try
+            {
+                ICollection<CategoryViewModel> categories = await this.categoryService.GetAllCategoriesAsync();
+
+                AddCarFormModel model = new AddCarFormModel();
+                model.Categories = categories;
+
+                return View(model);
+            }
+            catch (Exception)
+            {
+                return GeneralExceptionHandler();
+            }
+        }
+
         private RedirectToActionResult GeneralExceptionHandler()
         {
             TempData[ErrorMessage] = "Unexpected error occurred! Please try again later.";
 
             return RedirectToAction("Index", "Home");
+        }
+
+        private string GetUserId()
+        {
+            return User.FindFirstValue(ClaimTypes.NameIdentifier);
         }
     }
 }

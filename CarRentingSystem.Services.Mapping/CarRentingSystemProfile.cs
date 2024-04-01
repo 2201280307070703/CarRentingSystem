@@ -4,6 +4,7 @@
 
     using CarRentingSystem.Data.Models;
     using CarRentingSystem.Web.ViewModels.Car;
+    using CarRentingSystem.Web.ViewModels.Category;
     using CarRentingSystem.Web.ViewModels.Dealer;
 
     public class CarRentingSystemProfile: Profile
@@ -13,6 +14,8 @@
             this.CreateMap<BecomeDealerFormModel, Dealer>();
 
             this.CreateMap<Car, CarCardViewModel>();
+
+            this.CreateMap<Category, CategoryViewModel>();
         }
     }
 }
