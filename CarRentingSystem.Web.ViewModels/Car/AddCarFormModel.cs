@@ -26,14 +26,17 @@
 
         [Required]
         [StringLength(ImageUrlMaxLength)]
+        [Display(Name = "Image Link")]
         public string ImageUrl { get; set; } = null!;
 
         [Range(typeof(int), MinYear, MaxYear)]
         public int Year { get; set; }
 
         [Range(typeof(decimal), PricePerDayMinValue, PricePerDayMaxValue)]
+        [Display(Name = "Daily Price")]
         public decimal PricePerDay { get; set; }
 
+        [Display(Name = "Category")]
         public int CategoryId { get; set; }
 
         public ICollection<CategoryViewModel> Categories { get; set; } = null!;

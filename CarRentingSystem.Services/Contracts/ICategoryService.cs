@@ -5,5 +5,7 @@
     public interface ICategoryService
     {
         Task<ICollection<CategoryViewModel>> GetAllCategoriesAsync();
+
+        Task<bool> CategoryExistsByIdAsync(int id);
     }
 }

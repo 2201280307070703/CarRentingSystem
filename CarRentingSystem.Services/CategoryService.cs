@@ -19,6 +19,11 @@
             this.mapper = mapper;
         }
 
+        public async Task<bool> CategoryExistsByIdAsync(int id)
+        {
+            return await this.dbContext.Categories.AnyAsync(c => c.Id == id);
+        }
+
         public async Task<ICollection<CategoryViewModel>> GetAllCategoriesAsync()
         {
             return await this.dbContext.Categories.ProjectTo<CategoryViewModel>(this.mapper.ConfigurationProvider).ToArrayAsync();

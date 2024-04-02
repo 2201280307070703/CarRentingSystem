@@ -5,5 +5,7 @@
     public interface ICarService
     {
         Task<ICollection<CarCardViewModel>> GetAllCarsByUserIdAsync(string userId);
+
+        Task<string> AddCarAndReturnIdAsync(AddCarFormModel model, string dealerId);
     }
 }

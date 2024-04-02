@@ -10,6 +10,6 @@
 
         Task Create(string userId, BecomeDealerFormModel model);
 
-        //Task<string> TakeDealerIdByUserId(string userId);
+        Task<string> TakeDealerIdByUserId(string userId);
     }
 }

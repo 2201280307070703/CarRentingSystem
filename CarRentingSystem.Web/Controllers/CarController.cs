@@ -85,6 +85,46 @@
             }
         }
 
+        [HttpPost]
+        public async Task<IActionResult> Add(AddCarFormModel formModel)
+        {
+            string userId = GetUserId();
+            bool isUserDealer = await this.dealerService.DealerExistsByUserIdAsync(userId);
+
+            if (!isUserDealer)
+            {
+                this.TempData[ErrorMessage] = "You must be a dealer in order to add car ad!";
+
+                return RedirectToAction("Become", "Dealer");
+            }
+
+            bool isCategoryValid = await this.categoryService.CategoryExistsByIdAsync(formModel.CategoryId);
+
+            if (!isCategoryValid)
+            {
+                ModelState.AddModelError(nameof(formModel.CategoryId), "Selected category is not valid!");
+            }
+
+            if (!ModelState.IsValid)
+            {
+                formModel.Categories = await this.categoryService.GetAllCategoriesAsync();
+
+                return View(formModel);
+            }
+
+            try
+            {
+                string dealerId = await this.dealerService.TakeDealerIdByUserId(userId);
+                string carId = await this.carService.AddCarAndReturnIdAsync(formModel, dealerId);
+
+                return RedirectToAction("Details", "Car", new {id = carId});
+            }
+            catch (Exception)
+            {
+                return GeneralExceptionHandler();
+            }
+        }
+
         private RedirectToActionResult GeneralExceptionHandler()
         {
             TempData[ErrorMessage] = "Unexpected error occurred! Please try again later.";

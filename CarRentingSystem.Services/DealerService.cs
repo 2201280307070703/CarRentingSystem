@@ -38,5 +38,12 @@
         {
             return await dbContext.Dealers.AnyAsync(d => d.UserId.ToString() == userId);
         }
+
+        public async Task<string> TakeDealerIdByUserId(string userId)
+        {
+            Dealer dealer = await this.dbContext.Dealers.FirstAsync();
+
+            return dealer.Id.ToString();
+        }
     }
 }
