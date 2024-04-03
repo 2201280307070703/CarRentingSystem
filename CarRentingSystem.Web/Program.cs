@@ -7,6 +7,7 @@ namespace CarRentingSystem.Web
     using CarRentingSystem.Web.Infrastructure.Extensions;
     using CarRentingSystem.Services;
     using CarRentingSystem.Services.Mapping;
+    using CarRentingSystem.Web.Infrastructure.ModelBinders;
 
     public class Program
     {
@@ -44,7 +45,12 @@ namespace CarRentingSystem.Web
 
             builder.Services.AddServices(typeof(CarService));
 
-            builder.Services.AddControllersWithViews();
+            builder.Services
+                .AddControllersWithViews()
+                .AddMvcOptions(options =>
+                {
+                    options.ModelBinderProviders.Insert(0, new DecimalModelBinderProvider());
+                });
 
             WebApplication app = builder.Build();
 
