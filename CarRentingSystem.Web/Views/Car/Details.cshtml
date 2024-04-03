@@ -1,0 +1,24 @@
+﻿@model CarDetailsViewModel;
+
+@{
+    ViewData["Title"] = "Car Details";
+}
+
+<h2 class="text-center">@ViewBag.Title</h2>
+<hr />
+
+<div class="card" style="width: 18rem;">
+    <img class="card-img-top" src="@Model.ImageUrl" alt="Car Image">
+    <div class="card-body">
+        <h5 class="card-title">@Model.Make @Model.Model</h5>
+        <p class="card-text">@Model.Description</p>
+    </div>
+    <ul class="list-group list-group-flush">
+        <li class="list-group-item">@Model.Category</li>
+        <li class="list-group-item">@Model.PricePerDay</li>
+        <li class="list-group-item">@Model.Year</li>
+    </ul>
+    <div class="card-body">
+        <a asp-controller="Dealer" asp-action="Details" asp-route-id="" class="card-link">Car Dealer</a>
+    </div>
+</div>

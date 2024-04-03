@@ -18,6 +18,10 @@
             this.CreateMap<Category, CategoryViewModel>();
 
             this.CreateMap<AddCarFormModel, Car>();
+
+            this.CreateMap<Car, CarDetailsViewModel>();
+
+            this.CreateMap<Dealer, DealerDetailsViewModel>();
         }
     }
 }
