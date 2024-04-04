@@ -4,10 +4,10 @@
     ViewData["Title"] = "Car Details";
 }
 
-<h2 class="text-center">@ViewBag.Title</h2>
+<h2 class="text-center mt-3">@ViewBag.Title</h2>
 <hr />
 
-<div class="card" style="width: 18rem;">
+<div class="card offset-3 col-6">
     <img class="card-img-top" src="@Model.ImageUrl" alt="Car Image">
     <div class="card-body">
         <h5 class="card-title">@Model.Make @Model.Model</h5>
@@ -15,10 +15,10 @@
     </div>
     <ul class="list-group list-group-flush">
         <li class="list-group-item">@Model.Category</li>
-        <li class="list-group-item">@Model.PricePerDay</li>
-        <li class="list-group-item">@Model.Year</li>
+        <li class="list-group-item">Daily Price Is @Model.PricePerDay</li>
+        <li class="list-group-item">This Car Was Made @Model.Year Year</li>
     </ul>
-    <div class="card-body">
-        <a asp-controller="Dealer" asp-action="Details" asp-route-id="" class="card-link">Car Dealer</a>
+    <div class="card-body offset-4 col-4">
+        <a asp-controller="Dealer" asp-action="Details" asp-route-id="@Model.DealerId" class="card-link">Car Dealer Info</a>
     </div>
 </div>

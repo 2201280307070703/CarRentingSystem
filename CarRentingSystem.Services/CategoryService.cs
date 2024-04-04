@@ -26,7 +26,8 @@
 
         public async Task<ICollection<CategoryViewModel>> GetAllCategoriesAsync()
         {
-            return await this.dbContext.Categories.ProjectTo<CategoryViewModel>(this.mapper.ConfigurationProvider).ToArrayAsync();
+            return await this.dbContext.Categories
+                .ProjectTo<CategoryViewModel>(this.mapper.ConfigurationProvider).ToArrayAsync();
         }
     }
 }

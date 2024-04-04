@@ -70,6 +70,32 @@
                 return GeneralExceptionHandler();
             }
         }
+
+        [HttpGet]
+        [AllowAnonymous]
+        public async Task<IActionResult> Details(string id)
+        {
+            bool dealerExists = await this.dealerService.DealerExistsByIdAsync(id);
+
+            if (!dealerExists)
+            {
+                this.TempData[ErrorMessage] = "This dealer do no exists!";
+
+                return RedirectToAction("Index", "Home");
+            }
+
+            try
+            {
+                DealerDetailsViewModel model = await this.dealerService.GetDealerDetailsByIdAsync(id);
+
+                return View(model);
+            }
+            catch (Exception)
+            {
+                return GeneralExceptionHandler();
+            }
+        }
+
         private RedirectToActionResult GeneralExceptionHandler()
         {
             TempData[ErrorMessage] = "Unexpected error occurred! Please try again later.";

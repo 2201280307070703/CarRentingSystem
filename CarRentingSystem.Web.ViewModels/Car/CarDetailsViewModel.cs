@@ -1,6 +1,5 @@
 ﻿namespace CarRentingSystem.Web.ViewModels.Car
 {
-    using CarRentingSystem.Web.ViewModels.Dealer;
 
     public class CarDetailsViewModel
     {

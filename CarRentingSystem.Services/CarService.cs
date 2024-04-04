@@ -34,11 +34,22 @@
             return newCar.Id.ToString();
         }
 
+        public async Task<bool> CarExistsByIdAsync(string carId)
+        {
+            return await this.dbContext.Cars.AnyAsync(c => c.Id.ToString() == carId);
+        }
+
         public async Task<ICollection<CarCardViewModel>> GetAllCarsByUserIdAsync(string userId)
         {
             return await dbContext.Cars.Where(c => c.Dealer.UserId.ToString() == userId)
                 .ProjectTo<CarCardViewModel>(this.mapper.ConfigurationProvider).ToArrayAsync();
                 
+        }
+
+        public async Task<CarDetailsViewModel> GetCarDetailsByIdAsync(string carId)
+        {
+            return await this.dbContext.Cars.Where(c => c.Id.ToString() == carId)
+                .ProjectTo<CarDetailsViewModel>(this.mapper.ConfigurationProvider).FirstAsync();
         }
     }
 }

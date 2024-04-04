@@ -1,0 +1,15 @@
+﻿@model DealerDetailsViewModel;
+@{
+    ViewData["Title"] = "More Info For Dealer";
+}
+
+<h2 class="text-center mt-3">@ViewBag.Title</h2>
+
+<hr />
+<div class="card offset-4 col-4">
+    <div class="card-body">
+        <h5 class="card-title">@Model.FirstName @Model.LastName</h5>
+        <p class="card-text">Phone number @Model.PhoneNumber</p>
+        <a asp-controller="Dealer" asp-action="OwnedCars" asp-route-id = "@Model.Id" class="btn btn-primary">Dealer Owned Cars</a>
+    </div>
+</div>

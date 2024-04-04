@@ -125,6 +125,29 @@
             }
         }
 
+        [HttpGet]
+        [AllowAnonymous]
+        public async Task<IActionResult> Details(string id)
+        {
+            bool carExists = await this.carService.CarExistsByIdAsync(id);
+            if (!carExists)
+            {
+                this.TempData[ErrorMessage] = "This car do not exists!";
+
+                return RedirectToAction("All", "Car");
+            }
+            try
+            {
+                CarDetailsViewModel model = await this.carService.GetCarDetailsByIdAsync(id);
+
+                return View(model);
+            }
+            catch (Exception)
+            {
+                return GeneralExceptionHandler();
+            }
+        }
+
         private RedirectToActionResult GeneralExceptionHandler()
         {
             TempData[ErrorMessage] = "Unexpected error occurred! Please try again later.";

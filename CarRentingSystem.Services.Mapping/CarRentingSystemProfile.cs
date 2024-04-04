@@ -19,7 +19,8 @@
 
             this.CreateMap<AddCarFormModel, Car>();
 
-            this.CreateMap<Car, CarDetailsViewModel>();
+            this.CreateMap<Car, CarDetailsViewModel>()
+                .ForMember(d => d.Category, opt => opt.MapFrom(s => s.Category.Name));
 
             this.CreateMap<Dealer, DealerDetailsViewModel>();
         }

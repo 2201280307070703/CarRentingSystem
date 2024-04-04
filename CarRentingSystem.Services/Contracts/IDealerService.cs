@@ -11,5 +11,9 @@
         Task Create(string userId, BecomeDealerFormModel model);
 
         Task<string> TakeDealerIdByUserId(string userId);
+
+        Task<DealerDetailsViewModel> GetDealerDetailsByIdAsync(string dealerId);
+
+        Task<bool> DealerExistsByIdAsync(string dealerId);
     }
 }
