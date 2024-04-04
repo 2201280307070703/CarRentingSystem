@@ -15,5 +15,6 @@
         Task<DealerDetailsViewModel> GetDealerDetailsByIdAsync(string dealerId);
 
         Task<bool> DealerExistsByIdAsync(string dealerId);
+
     }
 }

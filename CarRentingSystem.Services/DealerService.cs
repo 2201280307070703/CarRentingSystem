@@ -52,7 +52,12 @@
 
         public async Task<string> TakeDealerIdByUserId(string userId)
         {
-            Dealer dealer = await this.dbContext.Dealers.FirstAsync();
+            Dealer? dealer = await this.dbContext.Dealers.FirstOrDefaultAsync(d => d.UserId.ToString() == userId);
+
+            if (dealer == null)
+            {
+                return null!;
+            }
 
             return dealer.Id.ToString();
         }

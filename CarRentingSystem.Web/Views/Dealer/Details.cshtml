@@ -10,6 +10,6 @@
     <div class="card-body">
         <h5 class="card-title">@Model.FirstName @Model.LastName</h5>
         <p class="card-text">Phone number @Model.PhoneNumber</p>
-        <a asp-controller="Dealer" asp-action="OwnedCars" asp-route-id = "@Model.Id" class="btn btn-primary">Dealer Owned Cars</a>
+        <a asp-controller="Car" asp-action="DealerCars" asp-route-id="@Model.Id" class="btn btn-primary">Dealer Owned Cars</a>
     </div>
 </div>

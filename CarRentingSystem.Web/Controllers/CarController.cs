@@ -33,28 +33,54 @@
         //}
 
         [HttpGet]
-        public async Task<IActionResult> MyOwned()
+        public async Task<IActionResult> DealerCars(string dealerId)
         {
-            string userId = GetUserId();
-            bool isUserDealer = await dealerService.DealerExistsByUserIdAsync(userId);
-
-            if (!isUserDealer)
+            Console.WriteLine(string.IsNullOrWhiteSpace(dealerId));
+            if (!string.IsNullOrWhiteSpace(dealerId))
             {
-                this.TempData[ErrorMessage] = "You are not dealer!";
+                bool dealerExists = await this.dealerService.DealerExistsByIdAsync(dealerId);
+                if (!dealerExists)
+                {
+                    this.TempData[ErrorMessage] = "This dealer do not exists!";
 
-                return RedirectToAction("Become", "Dealer");
+                    return RedirectToAction("Index", "Home");
+                }
             }
+            else
+            {
+                string userId = GetUserId();
+
+                dealerId = await this.dealerService.TakeDealerIdByUserId(userId);
+
+                bool dealerExists;
+                if (dealerId != null)
+                {
+                    dealerExists = await this.dealerService.DealerExistsByIdAsync(dealerId);
+
+                }
+                else
+                {
+                    dealerExists = false;
+                }
+                if (!dealerExists)
+                {
+                    this.TempData[ErrorMessage] = "You are not a dealer and you don't have any cars!";
+
+                    return RedirectToAction("Become", "Dealer");
+                }
+            }
+
             try
             {
-                ICollection<CarCardViewModel> model = await carService.GetAllCarsByUserIdAsync(userId);
+                ICollection<CarCardViewModel> model = await this.carService.GetAllCarsByDealerIdAsync(dealerId);
 
                 return View(model);
-
             }
             catch (Exception)
             {
                 return GeneralExceptionHandler();
             }
+            
         }
 
         [HttpGet]

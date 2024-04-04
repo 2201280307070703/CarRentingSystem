@@ -83,7 +83,6 @@
 
                 return RedirectToAction("Index", "Home");
             }
-
             try
             {
                 DealerDetailsViewModel model = await this.dealerService.GetDealerDetailsByIdAsync(id);
