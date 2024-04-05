@@ -22,7 +22,7 @@
         [HttpGet]
         public async Task<IActionResult> Become()
         {
-            string? userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            string? userId = GetUserId();
             bool dealerExists = await dealerService.DealerExistsByUserIdAsync(userId);
 
             if(dealerExists)
@@ -38,7 +38,7 @@
         [HttpPost]
         public async Task<IActionResult> Become(BecomeDealerFormModel model)
         {
-            string? userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            string? userId = GetUserId();
             bool dealerExists = await dealerService.DealerExistsByUserIdAsync(userId);
 
             if (dealerExists)
@@ -100,6 +100,11 @@
             TempData[ErrorMessage] = "Unexpected error occurred! Please try again later.";
 
             return RedirectToAction("Index", "Home");
+        }
+
+        private string GetUserId()
+        {
+            return User.FindFirstValue(ClaimTypes.NameIdentifier);
         }
     }
 }

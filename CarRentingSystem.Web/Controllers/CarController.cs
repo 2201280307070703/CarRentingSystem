@@ -25,54 +25,46 @@
             this.categoryService = categoryService;
         }
 
-        //[AllowAnonymous]
-        //[HttpGet]
-        //public Task<IActionResult> IAll()
-        //{
-        //    return View();
-        //}
-
         [HttpGet]
-        public async Task<IActionResult> DealerCars(string dealerId)
+        public async Task<IActionResult> DealerCars(string? dealerId)
         {
-            Console.WriteLine(string.IsNullOrWhiteSpace(dealerId));
-            if (!string.IsNullOrWhiteSpace(dealerId))
+            string title = string.Empty;
+
+            if (string.IsNullOrWhiteSpace(dealerId))
             {
-                bool dealerExists = await this.dealerService.DealerExistsByIdAsync(dealerId);
+                string userId = GetUserId();
+                bool dealerExists = await this.dealerService.DealerExistsByUserIdAsync(userId);
+
                 if (!dealerExists)
                 {
-                    this.TempData[ErrorMessage] = "This dealer do not exists!";
+                    this.TempData[ErrorMessage] = "You should be a dealer in order to have cars!";
 
-                    return RedirectToAction("Index", "Home");
+                    return RedirectToAction("Become", "Dealer");
+                }
+                else
+                {
+                    dealerId = await this.dealerService.TakeDealerIdByUserId(userId);
+                    title = "My Cars";
                 }
             }
             else
             {
-                string userId = GetUserId();
-
-                dealerId = await this.dealerService.TakeDealerIdByUserId(userId);
-
-                bool dealerExists;
-                if (dealerId != null)
-                {
-                    dealerExists = await this.dealerService.DealerExistsByIdAsync(dealerId);
-
-                }
-                else
-                {
-                    dealerExists = false;
-                }
+                bool dealerExists = await this.dealerService.DealerExistsByIdAsync(dealerId);
                 if (!dealerExists)
                 {
-                    this.TempData[ErrorMessage] = "You are not a dealer and you don't have any cars!";
+                    this.TempData[ErrorMessage] = "Dealer not found!";
 
-                    return RedirectToAction("Become", "Dealer");
+                    return RedirectToAction("Index", "Home");
                 }
+
+                title = "Current Dealer Cars";
             }
 
             try
             {
                 ICollection<CarCardViewModel> model = await this.carService.GetAllCarsByDealerIdAsync(dealerId);
+
+                this.TempData["title"] = title;
 
                 return View(model);
             }
