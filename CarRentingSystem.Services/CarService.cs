@@ -39,6 +39,11 @@
             return await this.dbContext.Cars.AnyAsync(c => c.Id.ToString() == carId);
         }
 
+        public async Task<ICollection<CarCardViewModel>> GetAllCarsAsync()
+        {
+            return await this.dbContext.Cars.Where(c => c.isAvailable == true).ProjectTo<CarCardViewModel>(this.mapper.ConfigurationProvider).ToArrayAsync();
+        }
+
         public async Task<ICollection<CarCardViewModel>> GetAllCarsByDealerIdAsync(string dealerId)
         {
             return await this.dbContext.Cars.Where(c => c.DealerId.ToString() == dealerId)

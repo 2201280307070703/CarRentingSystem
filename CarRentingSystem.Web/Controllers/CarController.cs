@@ -26,6 +26,15 @@
         }
 
         [HttpGet]
+        [AllowAnonymous]
+        public async Task<IActionResult> All()
+        {
+            ICollection<CarCardViewModel> model = await this.carService.GetAllCarsAsync();
+
+            return View(model);
+        }
+
+        [HttpGet]
         public async Task<IActionResult> DealerCars(string? dealerId)
         {
             string title = string.Empty;

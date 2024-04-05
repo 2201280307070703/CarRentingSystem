@@ -7,9 +7,10 @@
 <h2 class="text-center mt-3">@ViewBag.Title</h2>
 <hr />
 
+<div class="row">
+
 @foreach (CarCardViewModel card in @Model)
 {
-    <div class="offset-3 col-6">
         <partial name="_CarCardPartial" model="card" />
-    </div>
 }
+</div>

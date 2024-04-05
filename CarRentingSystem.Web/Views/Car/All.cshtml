@@ -1,0 +1,16 @@
+﻿@model ICollection<CarCardViewModel>;
+
+@{
+    ViewData["Title"] = "Our Cars";
+}
+
+<h2 class="text-center mt-3">@ViewBag.Title</h2>
+<hr />
+
+<div class="row">
+    @foreach (var car in Model)
+    {
+        <partial name="_CarCardPartial" model="@car" />
+    }
+</div>
+

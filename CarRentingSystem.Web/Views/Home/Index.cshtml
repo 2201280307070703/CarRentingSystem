@@ -2,7 +2,8 @@
     ViewData["Title"] = "Home Page";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
+<h2 class="text-center mt-3">@ViewBag.Title</h2>
+<hr />
+
+<img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSB0Uq9V8zSuPUjLL9zJulhESFbpNuVbAJkPYuRgOuLPJAJbgDGKnAeEPHIDN42fkCAAb0&usqp=CAU" class="rounded col-10 offset-1" alt="Cars">
+<a asp-controller="Car" asp-action="All" class="btn btn-primary btn-lg offset-5 mt-3" tabindex="-1" role="button">Check out our cars</a>

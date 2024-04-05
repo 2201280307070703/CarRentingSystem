@@ -6,6 +6,8 @@
     {
         Task<ICollection<CarCardViewModel>> GetAllCarsByDealerIdAsync(string dealerId);
 
+        Task<ICollection<CarCardViewModel>> GetAllCarsAsync();
+
         Task<string> AddCarAndReturnIdAsync(AddCarFormModel model, string dealerId);
 
         Task<CarDetailsViewModel> GetCarDetailsByIdAsync(string carId);

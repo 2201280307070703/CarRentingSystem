@@ -63,6 +63,7 @@
             {
                 await this.dealerService.Create(userId, model);
 
+                this.TempData[SuccessMessage] = "You successfully became a dealer!";
                 return RedirectToAction("Mine", "Car");
             }
             catch (Exception)
