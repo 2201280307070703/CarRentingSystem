@@ -44,6 +44,18 @@
             return await dbContext.Dealers.AnyAsync(d => d.UserId.ToString() == userId);
         }
 
+        public async Task<bool> DealerIsOwnerOfTheCarByUserIdAsync(string userId, string carId)
+        {
+            Dealer? dealer = await this.dbContext.Dealers.Include(d => d.OwnedCars).FirstOrDefaultAsync(d => d.UserId.ToString() == userId);
+
+            if (dealer == null)
+            {
+                return false;
+            }
+
+            return dealer.OwnedCars.Any(c => c.Id.ToString() == carId);
+        }
+
         public Task<DealerDetailsViewModel> GetDealerDetailsByIdAsync(string dealerId)
         {
             return dbContext.Dealers.Where(d => d.Id.ToString() == dealerId)

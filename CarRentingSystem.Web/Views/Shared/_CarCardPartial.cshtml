@@ -1,4 +1,13 @@
-﻿@model CarCardViewModel;
+﻿@using CarRentingSystem.Services.Contracts;
+@using CarRentingSystem.Web.Infrastructure.Extensions;
+
+@model CarCardViewModel
+
+@inject IDealerService DealerService
+
+@{
+    bool isOwner = await this.DealerService.DealerIsOwnerOfTheCarByUserIdAsync(this.User.GetUserId()!, Model.Id.ToString());
+}
 
 <div class="col-md-4">
     <div class="card mb-3">
@@ -7,7 +16,15 @@
             <h4>@Model.Make @Model.Model</h4>
             <h6>@Model.Description</b></h6>
             <br />
-            <a asp-area="" asp-controller="Car" asp-action="Details" asp-route-id="@Model.Id" class="btn btn-success">Details</a>
+            <a asp-area="" asp-controller="Car" asp-action="Details" asp-route-id="@Model.Id" class="btn btn-info">Details</a>
+            @if (this.User?.Identity?.IsAuthenticated ?? false)
+            {
+                @if (isOwner)
+                {
+                    <a asp-area="" asp-controller="Car" asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-warning">Edit</a>
+                    <a asp-area="" asp-controller="Car" asp-action="Delete" asp-route-id="@Model.Id" class="btn btn-danger">Delete</a>
+                }
+            }
         </div>
     </div>
 </div>

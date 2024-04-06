@@ -1,6 +1,5 @@
 ﻿namespace CarRentingSystem.Web.Controllers
 {
-    using System.Security.Claims;
 
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
@@ -9,6 +8,7 @@
     using CarRentingSystem.Services.Data.Contracts;
     using CarRentingSystem.Web.ViewModels.Car;
     using CarRentingSystem.Web.ViewModels.Category;
+    using CarRentingSystem.Web.Infrastructure.Extensions;
     using static Common.NotificationMessagesConstants;
 
     [Authorize]
@@ -41,7 +41,7 @@
 
             if (string.IsNullOrWhiteSpace(dealerId))
             {
-                string userId = GetUserId();
+                string userId = this.User.GetUserId()!;
                 bool dealerExists = await this.dealerService.DealerExistsByUserIdAsync(userId);
 
                 if (!dealerExists)
@@ -87,7 +87,7 @@
         [HttpGet]
         public async Task<IActionResult> Add()
         {
-            string userId = GetUserId();
+            string userId = this.User.GetUserId()!;
             bool isUserDealer = await this.dealerService.DealerExistsByUserIdAsync(userId);
 
             if (!isUserDealer)
@@ -115,7 +115,7 @@
         [HttpPost]
         public async Task<IActionResult> Add(AddCarFormModel formModel)
         {
-            string userId = GetUserId();
+            string userId = this.User.GetUserId()!;
             bool isUserDealer = await this.dealerService.DealerExistsByUserIdAsync(userId);
 
             if (!isUserDealer)
@@ -181,11 +181,6 @@
             TempData[ErrorMessage] = "Unexpected error occurred! Please try again later.";
 
             return RedirectToAction("Index", "Home");
-        }
-
-        private string GetUserId()
-        {
-            return User.FindFirstValue(ClaimTypes.NameIdentifier);
         }
     }
 }

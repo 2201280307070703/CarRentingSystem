@@ -1,13 +1,13 @@
 ﻿namespace CarRentingSystem.Web.Controllers
 {
-    using System.Security.Claims;
-
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
 
     using CarRentingSystem.Services.Contracts;
     using CarRentingSystem.Web.ViewModels.Dealer;
+    using CarRentingSystem.Web.Infrastructure.Extensions;
     using static Common.NotificationMessagesConstants;
+
 
     [Authorize]
     public class DealerController : Controller
@@ -22,7 +22,7 @@
         [HttpGet]
         public async Task<IActionResult> Become()
         {
-            string? userId = GetUserId();
+            string? userId = this.User.GetUserId()!;
             bool dealerExists = await dealerService.DealerExistsByUserIdAsync(userId);
 
             if(dealerExists)
@@ -38,7 +38,7 @@
         [HttpPost]
         public async Task<IActionResult> Become(BecomeDealerFormModel model)
         {
-            string? userId = GetUserId();
+            string? userId = this.User.GetUserId()!;
             bool dealerExists = await dealerService.DealerExistsByUserIdAsync(userId);
 
             if (dealerExists)
@@ -101,11 +101,6 @@
             TempData[ErrorMessage] = "Unexpected error occurred! Please try again later.";
 
             return RedirectToAction("Index", "Home");
-        }
-
-        private string GetUserId()
-        {
-            return User.FindFirstValue(ClaimTypes.NameIdentifier);
         }
     }
 }

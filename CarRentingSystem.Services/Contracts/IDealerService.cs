@@ -16,5 +16,6 @@
 
         Task<bool> DealerExistsByIdAsync(string dealerId);
 
+        Task<bool> DealerIsOwnerOfTheCarByUserIdAsync(string userId, string carId);
     }
 }
