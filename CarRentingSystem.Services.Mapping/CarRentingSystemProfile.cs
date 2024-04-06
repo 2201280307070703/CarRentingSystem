@@ -17,7 +17,9 @@
 
             this.CreateMap<Category, CategoryViewModel>();
 
-            this.CreateMap<AddCarFormModel, Car>();
+            this.CreateMap<CarFormModel, Car>();
+
+            this.CreateMap<Car, CarFormModel>();
 
             this.CreateMap<Car, CarDetailsViewModel>()
                 .ForMember(d => d.Category, opt => opt.MapFrom(s => s.Category.Name));

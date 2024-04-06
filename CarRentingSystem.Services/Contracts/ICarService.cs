@@ -8,10 +8,14 @@
 
         Task<ICollection<CarCardViewModel>> GetAllCarsAsync();
 
-        Task<string> AddCarAndReturnIdAsync(AddCarFormModel model, string dealerId);
+        Task<string> AddCarAndReturnIdAsync(CarFormModel model, string dealerId);
 
         Task<CarDetailsViewModel> GetCarDetailsByIdAsync(string carId);
 
         Task<bool> CarExistsByIdAsync(string carId);
+
+        Task<CarFormModel> GetCarForEditByIdAsync(string carId);
+
+        Task EditCarByIdAsync(string carId, CarFormModel model);
     }
 }

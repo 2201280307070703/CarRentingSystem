@@ -5,9 +5,9 @@
     using CarRentingSystem.Web.ViewModels.Category;
     using static CarRentingSystem.Common.EntityValidationConstants.Car;
 
-    public class AddCarFormModel
+    public class CarFormModel
     {
-        public AddCarFormModel()
+        public CarFormModel()
         {
             this.Categories = new HashSet<CategoryViewModel>();
         }

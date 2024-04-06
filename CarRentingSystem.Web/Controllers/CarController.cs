@@ -101,7 +101,7 @@
             {
                 ICollection<CategoryViewModel> categories = await this.categoryService.GetAllCategoriesAsync();
 
-                AddCarFormModel model = new AddCarFormModel();
+                CarFormModel model = new CarFormModel();
                 model.Categories = categories;
 
                 return View(model);
@@ -113,7 +113,7 @@
         }
 
         [HttpPost]
-        public async Task<IActionResult> Add(AddCarFormModel formModel)
+        public async Task<IActionResult> Add(CarFormModel formModel)
         {
             string userId = this.User.GetUserId()!;
             bool isUserDealer = await this.dealerService.DealerExistsByUserIdAsync(userId);
@@ -169,6 +169,88 @@
                 CarDetailsViewModel model = await this.carService.GetCarDetailsByIdAsync(id);
 
                 return View(model);
+            }
+            catch (Exception)
+            {
+                return GeneralExceptionHandler();
+            }
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Edit(string id)
+        {
+            bool carExists = await this.carService.CarExistsByIdAsync(id);
+            if (!carExists)
+            {
+                this.TempData[ErrorMessage] = "This car do not exists!";
+
+                return RedirectToAction("All", "Car");
+            }
+
+            bool isUserDealer = await this.dealerService.DealerExistsByUserIdAsync(this.User.GetUserId()!);
+            if (!isUserDealer)
+            {
+                this.TempData[ErrorMessage] = "You have to become a dealer in order to edit a car!";
+
+                return RedirectToAction("Become", "Dealer");
+            }
+
+            bool isDealerOwner = await this.dealerService.DealerIsOwnerOfTheCarByUserIdAsync(this.User.GetUserId()!, id);
+            if (!isDealerOwner)
+            {
+                this.TempData[ErrorMessage] = "You have to be owner in order to edit this car!";
+
+                return RedirectToAction("DealerCars", "Car");
+            }
+
+            try
+            {
+                CarFormModel model = await this.carService.GetCarForEditByIdAsync(id);
+
+                model.Categories = await this.categoryService.GetAllCategoriesAsync();
+
+                return View(model);
+            }
+            catch (Exception)
+            {
+                return GeneralExceptionHandler();
+            }
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Edit(string id, CarFormModel formModel)
+        {
+            bool carExists = await this.carService.CarExistsByIdAsync(id);
+            if (!carExists)
+            {
+                this.TempData[ErrorMessage] = "This car do not exists!";
+
+                return RedirectToAction("All", "Car");
+            }
+
+            bool isUserDealer = await this.dealerService.DealerExistsByUserIdAsync(this.User.GetUserId()!);
+            if (!isUserDealer)
+            {
+                this.TempData[ErrorMessage] = "You have to become a dealer in order to edit a car!";
+
+                return RedirectToAction("Become", "Dealer");
+            }
+
+            bool isDealerOwner = await this.dealerService.DealerIsOwnerOfTheCarByUserIdAsync(this.User.GetUserId()!, id);
+            if (!isDealerOwner)
+            {
+                this.TempData[ErrorMessage] = "You have to be owner in order to edit this car!";
+
+                return RedirectToAction("DealerCars", "Car");
+            }
+
+            try
+            {
+                await this.carService.EditCarByIdAsync(id, formModel);
+
+                this.TempData[SuccessMessage] = "Successfuly edited";
+
+                return RedirectToAction("Details", "Car", new {id});
             }
             catch (Exception)
             {

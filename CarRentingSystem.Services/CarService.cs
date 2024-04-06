@@ -23,7 +23,7 @@
             this.mapper = mapper;
         }
 
-        public async Task<string> AddCarAndReturnIdAsync(AddCarFormModel model, string dealerId)
+        public async Task<string> AddCarAndReturnIdAsync(CarFormModel model, string dealerId)
         {
             Car newCar = this.mapper.Map<Car>(model);
             newCar.DealerId = Guid.Parse(dealerId.ToUpper());
@@ -37,6 +37,15 @@
         public async Task<bool> CarExistsByIdAsync(string carId)
         {
             return await this.dbContext.Cars.Where(c => c.isDeleted == false).AnyAsync(c => c.Id.ToString() == carId);
+        }
+
+        public async Task EditCarByIdAsync(string carId, CarFormModel model)
+        {
+            Car carForEdit = await this.dbContext.Cars.FirstAsync(c => c.isDeleted == false && c.Id.ToString() == carId);
+
+            mapper.Map(model, carForEdit);
+
+            await dbContext.SaveChangesAsync();
         }
 
         public async Task<ICollection<CarCardViewModel>> GetAllCarsAsync()
@@ -54,6 +63,12 @@
         {
             return await this.dbContext.Cars.Where(c => c.isDeleted == false && c.Id.ToString() == carId)
                 .ProjectTo<CarDetailsViewModel>(this.mapper.ConfigurationProvider).FirstAsync();
+        }
+
+        public async Task<CarFormModel> GetCarForEditByIdAsync(string carId)
+        {
+            return await this.dbContext.Cars.Where(c => c.isDeleted == false && c .Id.ToString() == carId)
+                .ProjectTo<CarFormModel>(this.mapper.ConfigurationProvider).FirstAsync();
         }
     }
 }
