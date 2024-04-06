@@ -36,23 +36,23 @@
 
         public async Task<bool> CarExistsByIdAsync(string carId)
         {
-            return await this.dbContext.Cars.AnyAsync(c => c.Id.ToString() == carId);
+            return await this.dbContext.Cars.Where(c => c.isDeleted == false).AnyAsync(c => c.Id.ToString() == carId);
         }
 
         public async Task<ICollection<CarCardViewModel>> GetAllCarsAsync()
         {
-            return await this.dbContext.Cars.Where(c => c.isAvailable == true).ProjectTo<CarCardViewModel>(this.mapper.ConfigurationProvider).ToArrayAsync();
+            return await this.dbContext.Cars.Where(c => c.isDeleted == false).ProjectTo<CarCardViewModel>(this.mapper.ConfigurationProvider).ToArrayAsync();
         }
 
         public async Task<ICollection<CarCardViewModel>> GetAllCarsByDealerIdAsync(string dealerId)
         {
-            return await this.dbContext.Cars.Where(c => c.DealerId.ToString() == dealerId)
+            return await this.dbContext.Cars.Where(c => c.isDeleted == false && c.DealerId.ToString() == dealerId)
                 .ProjectTo<CarCardViewModel>(this.mapper.ConfigurationProvider).ToArrayAsync();
         }
 
         public async Task<CarDetailsViewModel> GetCarDetailsByIdAsync(string carId)
         {
-            return await this.dbContext.Cars.Where(c => c.Id.ToString() == carId)
+            return await this.dbContext.Cars.Where(c => c.isDeleted == false && c.Id.ToString() == carId)
                 .ProjectTo<CarDetailsViewModel>(this.mapper.ConfigurationProvider).FirstAsync();
         }
     }

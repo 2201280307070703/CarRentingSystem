@@ -144,6 +144,7 @@
                 string dealerId = await this.dealerService.TakeDealerIdByUserId(userId);
                 string carId = await this.carService.AddCarAndReturnIdAsync(formModel, dealerId);
 
+                this.TempData[SuccessMessage] = "Successfully added car!";
                 return RedirectToAction("Details", "Car", new {id = carId});
             }
             catch (Exception)

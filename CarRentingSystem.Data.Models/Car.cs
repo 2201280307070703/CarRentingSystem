@@ -36,6 +36,8 @@
 
         public bool isAvailable { get; set; }
 
+        public bool isDeleted { get; set; }
+
         [ForeignKey(nameof(Category))]
         public int CategoryId { get; set; }
 
