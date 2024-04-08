@@ -39,6 +39,13 @@
             return await this.dbContext.Cars.Where(c => c.isDeleted == false).AnyAsync(c => c.Id.ToString() == carId);
         }
 
+        public async Task<bool> CarIsRentedByIdAsync(string carId)
+        {
+            Car car = await this.dbContext.Cars.Where(c => c.isDeleted == false && c.Id.ToString() == carId).FirstAsync();
+
+            return car.isAvailable == false;
+        }
+
         public async Task DeleteCarByIdAsync(string carId)
         {
             Car carForDelete = await this.dbContext.Cars.FirstAsync(c => c.isDeleted == false && c.Id.ToString() == carId);
@@ -84,6 +91,16 @@
         {
             return await this.dbContext.Cars.Where(c => c.isDeleted == false && c .Id.ToString() == carId)
                 .ProjectTo<CarFormModel>(this.mapper.ConfigurationProvider).FirstAsync();
+        }
+
+        public async Task RentACarByIdAsync(string userId, string carId)
+        {
+            Car carForRent = await this.dbContext.Cars.Where(c => c.isDeleted == false && c.isAvailable == true && c.Id.ToString() == carId).FirstAsync();
+
+            carForRent.isAvailable = false;
+            carForRent.CurrentRenterId = Guid.Parse(userId);
+
+            await this.dbContext.SaveChangesAsync();
         }
     }
 }

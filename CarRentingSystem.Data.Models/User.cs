@@ -1,14 +1,16 @@
 ﻿namespace CarRentingSystem.Data.Models
 {
     using Microsoft.AspNetCore.Identity;
+    using System.ComponentModel.DataAnnotations.Schema;
 
     public class User: IdentityUser<Guid>
     {
-        public User() 
-        {
-            this.RentedCars = new HashSet<Car>();
-        }
+        [ForeignKey(nameof(Dealer))]
+        public Guid? DealerId { get; set; }
+        public virtual Dealer? Dealer { get; set; } = null!;
 
-        public virtual ICollection<Car> RentedCars { get; set; }
+        [ForeignKey(nameof(RentedCar))]
+        public Guid? RentedCarId { get; set; }
+        public virtual Car? RentedCar { get; set; } = null!;
     }
 }

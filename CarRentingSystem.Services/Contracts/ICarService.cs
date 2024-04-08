@@ -21,5 +21,9 @@
         Task<DeleteCarViewModel> GetCarForDeleteByIdAsync(string carId);
 
         Task DeleteCarByIdAsync(string carId);
+
+        Task<bool> CarIsRentedByIdAsync(string carId);
+
+        Task RentACarByIdAsync(string userId, string carId);
     }
 }

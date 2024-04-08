@@ -26,7 +26,10 @@
                 }
                 else
                 {
-                    <a asp-area="" asp-controller="Car" asp-action="Rent" asp-route-id="@Model.Id" class="btn btn-success">Rent</a>
+                    <form class="input-group-lg" asp-area="" asp-controller="Car"
+                          asp-action="Rent" asp-route-carId="@Model.Id" method="post">
+                        <input class="btn btn-primary col-4" type="submit" value="Rent" />
+                    </form>
                 }
             }
         </div>

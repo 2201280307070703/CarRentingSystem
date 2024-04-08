@@ -17,12 +17,14 @@
         private readonly ICarService carService;
         private readonly IDealerService dealerService;
         private readonly ICategoryService categoryService;
+        private readonly IUserService userService;
 
-        public CarController(ICarService carService, IDealerService dealerService, ICategoryService categoryService)
+        public CarController(ICarService carService, IDealerService dealerService, ICategoryService categoryService, IUserService userService)
         {
             this.carService = carService;
             this.dealerService = dealerService;
             this.categoryService = categoryService;
+            this.userService = userService;
         }
 
         [HttpGet]
@@ -35,6 +37,7 @@
         }
 
         [HttpGet]
+        [AllowAnonymous]
         public async Task<IActionResult> DealerCars(string? dealerId)
         {
             string title = string.Empty;
@@ -220,6 +223,12 @@
         [HttpPost]
         public async Task<IActionResult> Edit(string id, CarFormModel formModel)
         {
+            if (!ModelState.IsValid)
+            {
+                formModel.Categories = await this.categoryService.GetAllCategoriesAsync();
+
+                return View(formModel);
+            }
             bool carExists = await this.carService.CarExistsByIdAsync(id);
             if (!carExists)
             {
@@ -248,7 +257,7 @@
             {
                 await this.carService.EditCarByIdAsync(id, formModel);
 
-                this.TempData[SuccessMessage] = "Successfuly edited";
+                this.TempData[SuccessMessage] = "Successfully edited!";
 
                 return RedirectToAction("Details", "Car", new {id});
             }
@@ -328,6 +337,8 @@
             {
                 await this.carService.DeleteCarByIdAsync(id);
 
+                this.TempData[WarningMessage] = "Successfully deleted!";
+
                 return RedirectToAction("DealerCars", "Car");
             }
             catch (Exception)
@@ -335,6 +346,50 @@
                 return GeneralExceptionHandler();
             }
         }
+
+        [HttpPost]
+        public async Task<IActionResult> Rent(string carId)
+        {
+            bool carExists = await this.carService.CarExistsByIdAsync(carId);
+            if (!carExists)
+            {
+                this.TempData[ErrorMessage] = "This car do not exists!";
+
+                return RedirectToAction("All", "Car");
+            }
+
+            bool carIsRented = await this.carService.CarIsRentedByIdAsync(carId);
+            if (carIsRented)
+            {
+                this.TempData[ErrorMessage] = "This car is already rented! Please choose another car.";
+
+                return RedirectToAction("All", "Car");
+            }
+
+            bool userHasRentedCar = await this.userService.UserHasRentedCarByIdAsync(this.User.GetUserId()!);
+            if (userHasRentedCar)
+            {
+                this.TempData[ErrorMessage] = "You can rent only one car!";
+
+                return RedirectToAction("MyRentedCar", "Cars");
+            }
+
+            try
+            {
+                await this.carService.RentACarByIdAsync(this.User.GetUserId()!, carId);
+
+
+                this.TempData[SuccessMessage] = "Successfully rented!";
+
+
+                return RedirectToAction("MyRentedCar", "Cars");
+            }
+            catch (Exception)
+            {
+                return GeneralExceptionHandler();
+            }
+        }
+
         private RedirectToActionResult GeneralExceptionHandler()
         {
             TempData[ErrorMessage] = "Unexpected error occurred! Please try again later.";

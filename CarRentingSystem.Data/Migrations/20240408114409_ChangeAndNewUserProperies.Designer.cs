@@ -4,6 +4,7 @@ using CarRentingSystem.Web.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CarRentingSystem.Data.Migrations
 {
     [DbContext(typeof(CarRentingDbContext))]
-    partial class CarRentingDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240408114409_ChangeAndNewUserProperies")]
+    partial class ChangeAndNewUserProperies
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -76,7 +78,9 @@ namespace CarRentingSystem.Data.Migrations
 
                     b.HasIndex("CategoryId");
 
-                    b.HasIndex("CurrentRenterId");
+                    b.HasIndex("CurrentRenterId")
+                        .IsUnique()
+                        .HasFilter("[CurrentRenterId] IS NOT NULL");
 
                     b.HasIndex("DealerId");
 
@@ -85,7 +89,7 @@ namespace CarRentingSystem.Data.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("5f6a178e-6915-4c45-956c-5a0e27bf1fba"),
+                            Id = new Guid("f5bf18df-be01-44f7-8da6-bb6d7d81af2a"),
                             CategoryId = 2,
                             DealerId = new Guid("dd2954bb-5bf3-4db5-a0d4-cb43bb47c4ff"),
                             Description = "Some description.",
@@ -99,7 +103,7 @@ namespace CarRentingSystem.Data.Migrations
                         },
                         new
                         {
-                            Id = new Guid("ea281ee5-9455-4563-a2c8-e373600fd600"),
+                            Id = new Guid("df8babad-b4e5-4ab9-b8f8-51836f2da4fb"),
                             CategoryId = 1,
                             DealerId = new Guid("dd2954bb-5bf3-4db5-a0d4-cb43bb47c4ff"),
                             Description = "Some description.",
@@ -113,7 +117,7 @@ namespace CarRentingSystem.Data.Migrations
                         },
                         new
                         {
-                            Id = new Guid("8f6d493a-efea-41c0-950a-1b5d4b8c24c9"),
+                            Id = new Guid("ba53c65a-ef1f-4494-9931-7b2a7b862129"),
                             CategoryId = 5,
                             DealerId = new Guid("dd2954bb-5bf3-4db5-a0d4-cb43bb47c4ff"),
                             Description = "Some description.",
@@ -198,7 +202,8 @@ namespace CarRentingSystem.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("UserId");
+                    b.HasIndex("UserId")
+                        .IsUnique();
 
                     b.ToTable("Dealers");
                 });
@@ -215,9 +220,6 @@ namespace CarRentingSystem.Data.Migrations
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<Guid?>("DealerId")
-                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Email")
                         .HasMaxLength(256)
@@ -249,9 +251,6 @@ namespace CarRentingSystem.Data.Migrations
                     b.Property<bool>("PhoneNumberConfirmed")
                         .HasColumnType("bit");
 
-                    b.Property<Guid?>("RentedCarId")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<string>("SecurityStamp")
                         .HasColumnType("nvarchar(max)");
 
@@ -264,8 +263,6 @@ namespace CarRentingSystem.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("DealerId");
-
                     b.HasIndex("NormalizedEmail")
                         .HasDatabaseName("EmailIndex");
 
@@ -273,8 +270,6 @@ namespace CarRentingSystem.Data.Migrations
                         .IsUnique()
                         .HasDatabaseName("UserNameIndex")
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
-
-                    b.HasIndex("RentedCarId");
 
                     b.ToTable("AspNetUsers", (string)null);
                 });
@@ -423,8 +418,8 @@ namespace CarRentingSystem.Data.Migrations
                         .IsRequired();
 
                     b.HasOne("CarRentingSystem.Data.Models.User", "CurrentRenter")
-                        .WithMany()
-                        .HasForeignKey("CurrentRenterId");
+                        .WithOne("RentedCar")
+                        .HasForeignKey("CarRentingSystem.Data.Models.Car", "CurrentRenterId");
 
                     b.HasOne("CarRentingSystem.Data.Models.Dealer", "Dealer")
                         .WithMany("OwnedCars")
@@ -442,27 +437,12 @@ namespace CarRentingSystem.Data.Migrations
             modelBuilder.Entity("CarRentingSystem.Data.Models.Dealer", b =>
                 {
                     b.HasOne("CarRentingSystem.Data.Models.User", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId")
+                        .WithOne("Dealer")
+                        .HasForeignKey("CarRentingSystem.Data.Models.Dealer", "UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("User");
-                });
-
-            modelBuilder.Entity("CarRentingSystem.Data.Models.User", b =>
-                {
-                    b.HasOne("CarRentingSystem.Data.Models.Dealer", "Dealer")
-                        .WithMany()
-                        .HasForeignKey("DealerId");
-
-                    b.HasOne("CarRentingSystem.Data.Models.Car", "RentedCar")
-                        .WithMany()
-                        .HasForeignKey("RentedCarId");
-
-                    b.Navigation("Dealer");
-
-                    b.Navigation("RentedCar");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<System.Guid>", b =>
@@ -524,6 +504,13 @@ namespace CarRentingSystem.Data.Migrations
             modelBuilder.Entity("CarRentingSystem.Data.Models.Dealer", b =>
                 {
                     b.Navigation("OwnedCars");
+                });
+
+            modelBuilder.Entity("CarRentingSystem.Data.Models.User", b =>
+                {
+                    b.Navigation("Dealer");
+
+                    b.Navigation("RentedCar");
                 });
 #pragma warning restore 612, 618
         }
