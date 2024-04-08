@@ -17,5 +17,9 @@
         Task<CarFormModel> GetCarForEditByIdAsync(string carId);
 
         Task EditCarByIdAsync(string carId, CarFormModel model);
+
+        Task<DeleteCarViewModel> GetCarForDeleteByIdAsync(string carId);
+
+        Task DeleteCarByIdAsync(string carId);
     }
 }

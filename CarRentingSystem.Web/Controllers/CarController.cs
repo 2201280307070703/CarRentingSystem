@@ -258,6 +258,83 @@
             }
         }
 
+        [HttpGet]
+        public async Task<IActionResult> Delete(string id)
+        {
+            bool carExists = await this.carService.CarExistsByIdAsync(id);
+            if (!carExists)
+            {
+                this.TempData[ErrorMessage] = "This car do not exists!";
+
+                return RedirectToAction("All", "Car");
+            }
+
+            bool isUserDealer = await this.dealerService.DealerExistsByUserIdAsync(this.User.GetUserId()!);
+            if (!isUserDealer)
+            {
+                this.TempData[ErrorMessage] = "You have to become a dealer in order to edit a car!";
+
+                return RedirectToAction("Become", "Dealer");
+            }
+
+            bool isDealerOwner = await this.dealerService.DealerIsOwnerOfTheCarByUserIdAsync(this.User.GetUserId()!, id);
+            if (!isDealerOwner)
+            {
+                this.TempData[ErrorMessage] = "You have to be owner in order to edit this car!";
+
+                return RedirectToAction("DealerCars", "Car");
+            }
+
+            try
+            {
+                DeleteCarViewModel model = await this.carService.GetCarForDeleteByIdAsync(id);
+
+                return View(model);
+            }
+            catch (Exception)
+            {
+                return GeneralExceptionHandler();
+            }
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Delete(string id, DeleteCarViewModel deleteCarModel)
+        {
+            bool carExists = await this.carService.CarExistsByIdAsync(id);
+            if (!carExists)
+            {
+                this.TempData[ErrorMessage] = "This car do not exists!";
+
+                return RedirectToAction("All", "Car");
+            }
+
+            bool isUserDealer = await this.dealerService.DealerExistsByUserIdAsync(this.User.GetUserId()!);
+            if (!isUserDealer)
+            {
+                this.TempData[ErrorMessage] = "You have to become a dealer in order to edit a car!";
+
+                return RedirectToAction("Become", "Dealer");
+            }
+
+            bool isDealerOwner = await this.dealerService.DealerIsOwnerOfTheCarByUserIdAsync(this.User.GetUserId()!, id);
+            if (!isDealerOwner)
+            {
+                this.TempData[ErrorMessage] = "You have to be owner in order to edit this car!";
+
+                return RedirectToAction("DealerCars", "Car");
+            }
+
+            try
+            {
+                await this.carService.DeleteCarByIdAsync(id);
+
+                return RedirectToAction("DealerCars", "Car");
+            }
+            catch (Exception)
+            {
+                return GeneralExceptionHandler();
+            }
+        }
         private RedirectToActionResult GeneralExceptionHandler()
         {
             TempData[ErrorMessage] = "Unexpected error occurred! Please try again later.";

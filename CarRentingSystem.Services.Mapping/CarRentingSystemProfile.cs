@@ -25,6 +25,8 @@
                 .ForMember(d => d.Category, opt => opt.MapFrom(s => s.Category.Name));
 
             this.CreateMap<Dealer, DealerDetailsViewModel>();
+
+            this.CreateMap<Car, DeleteCarViewModel>();
         }
     }
 }

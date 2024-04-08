@@ -39,6 +39,15 @@
             return await this.dbContext.Cars.Where(c => c.isDeleted == false).AnyAsync(c => c.Id.ToString() == carId);
         }
 
+        public async Task DeleteCarByIdAsync(string carId)
+        {
+            Car carForDelete = await this.dbContext.Cars.FirstAsync(c => c.isDeleted == false && c.Id.ToString() == carId);
+
+            carForDelete.isDeleted = true;
+
+            await this.dbContext.SaveChangesAsync();
+        }
+
         public async Task EditCarByIdAsync(string carId, CarFormModel model)
         {
             Car carForEdit = await this.dbContext.Cars.FirstAsync(c => c.isDeleted == false && c.Id.ToString() == carId);
@@ -63,6 +72,12 @@
         {
             return await this.dbContext.Cars.Where(c => c.isDeleted == false && c.Id.ToString() == carId)
                 .ProjectTo<CarDetailsViewModel>(this.mapper.ConfigurationProvider).FirstAsync();
+        }
+
+        public async Task<DeleteCarViewModel> GetCarForDeleteByIdAsync(string carId)
+        {
+            return await this.dbContext.Cars.Where(c => c.isDeleted == false && carId.ToString() == carId)
+                .ProjectTo<DeleteCarViewModel>(this.mapper.ConfigurationProvider).FirstAsync();
         }
 
         public async Task<CarFormModel> GetCarForEditByIdAsync(string carId)
