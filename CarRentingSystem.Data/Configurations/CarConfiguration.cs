@@ -18,6 +18,10 @@
                 .HasForeignKey(c => c.DealerId)
                 .OnDelete(DeleteBehavior.Restrict);
 
+            builder.HasOne(c => c.CurrentRenter)
+                .WithOne(u => u.RentedCar)
+                .HasForeignKey<User>(c => c.RentedCarId);
+
             builder.Property(p => p.PricePerDay)
                 .HasPrecision(18, 2);
 

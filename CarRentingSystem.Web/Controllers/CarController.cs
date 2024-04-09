@@ -371,7 +371,7 @@
             {
                 this.TempData[ErrorMessage] = "You can rent only one car!";
 
-                return RedirectToAction("MyRentedCar", "Cars");
+                return RedirectToAction("MyRentedCar", "Car");
             }
 
             try

@@ -96,9 +96,12 @@
         public async Task RentACarByIdAsync(string userId, string carId)
         {
             Car carForRent = await this.dbContext.Cars.Where(c => c.isDeleted == false && c.isAvailable == true && c.Id.ToString() == carId).FirstAsync();
+            User user = await this.dbContext.Users.FirstAsync(u => u.Id.ToString() == userId);
+
 
             carForRent.isAvailable = false;
             carForRent.CurrentRenterId = Guid.Parse(userId);
+            user.RentedCarId = carForRent.Id;
 
             await this.dbContext.SaveChangesAsync();
         }

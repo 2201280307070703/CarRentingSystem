@@ -22,7 +22,7 @@
         {
             User user = await this.dbContext.Users.FirstAsync(u => u.Id.ToString() == userId);
 
-            return user.RentedCarId != null;
+            return !string.IsNullOrWhiteSpace(user.RentedCarId.ToString());
         }
     }
 }
